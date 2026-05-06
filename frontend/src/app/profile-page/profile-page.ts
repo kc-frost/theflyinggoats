@@ -74,26 +74,27 @@ export class ProfilePage {
   }
 
   get filteredReservations() {
+    // todays date
     const pastCutoff = new Date();
 
     // currently, if the creation of a booking is at least 3 days ago
-    pastCutoff.setDate(pastCutoff.getDate() - 2);
+    // pastCutoff.setDate(pastCutoff.getDate() - 2);
     const allReservations = this.userReservations.value;
 
     // Changed these two if statements to match DB using datetime now
     // past: descending (most recent first)
     if (this.selectedTab == 'past') {
-      return allReservations.filter((reservation) => this.getDateTime(reservation.departLiftOffDate) < pastCutoff)
+      return allReservations.filter((reservation) => this.getDateTime(reservation.returnArrivingDate) < pastCutoff)
       .sort((a,b) => 
-        this.getDateTime(b.departLiftOffDate).getTime() - this.getDateTime(a.departLiftOffDate).getTime()
+        this.getDateTime(b.returnArrivingDate).getTime() - this.getDateTime(a.returnArrivingDate).getTime()
       )
     } 
 
     // upcoming: ascending (soonest first)
     else {
-      return allReservations.filter((reservation) => this.getDateTime(reservation.departLiftOffDate) >= pastCutoff)
+      return allReservations.filter((reservation) => this.getDateTime(reservation.returnArrivingDate) >= pastCutoff)
       .sort((a,b) => 
-        this.getDateTime(a.departLiftOffDate).getTime() - this.getDateTime(b.departLiftOffDate).getTime()
+        this.getDateTime(a.returnArrivingDate).getTime() - this.getDateTime(b.returnArrivingDate).getTime()
       )
     }
 
